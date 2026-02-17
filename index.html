@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Кристина Пронькина — Junior QA Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:       #080c0a;
+    --surface:  #0f1410;
+    --card:     #131a14;
+    --border:   #1c2a1e;
+    --green:    #3ddc84;
+    --green2:   #2ab86a;
+    --green-bg: #0f2018;
+    --text:     #e4ede6;
+    --muted:    #566b5a;
+    --muted2:   #8aa08e;
+    --accent:   #a8f0c0;
+    --amber:    #f5c542;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    background: rgba(8,12,10,0.9); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 2rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.05em; color: var(--muted2); }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--green); border: 1px solid var(--green); padding: 0.45rem 1.1rem; border-radius: 4px; transition: all 0.25s; }
+  .nav-cta:hover { background: var(--green); color: var(--bg); }
+  @media (max-width: 640px) { .nav-links { display: none; } nav { padding: 1rem 1.5rem; } }
+
+  /* Hero */
+  #hero { min-height: 100vh; display: flex; align-items: center; padding: 7rem 2.5rem 5rem; position: relative; overflow: hidden; }
+  .hero-glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(61,220,132,0.07) 0%, transparent 70%); top: 50%; left: 65%; transform: translate(-50%,-50%); pointer-events: none; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(28,42,30,0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(28,42,30,0.25) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at 75% 50%, black 20%, transparent 70%); pointer-events: none; }
+  .hero-content { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; color: var(--green); background: var(--green-bg); border: 1px solid rgba(61,220,132,0.2); padding: 0.35rem 0.9rem; border-radius: 20px; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s 0.1s forwards; }
+  .hero-tag::before { content: '●'; font-size: 0.5rem; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(3rem, 8vw, 7rem); letter-spacing: -0.04em; line-height: 0.92; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+  .hero-name .green { color: var(--green); }
+  .hero-name .outline { -webkit-text-stroke: 1px var(--muted); color: transparent; }
+
+  .hero-desc { max-width: 560px; font-size: clamp(0.9rem, 1.5vw, 1rem); color: var(--muted2); line-height: 1.8; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.35s forwards; }
+  .hero-desc strong { color: var(--text); font-weight: 500; }
+
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+  .btn-primary { background: var(--green); color: var(--bg); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; padding: 0.85rem 2rem; border-radius: 6px; font-weight: 500; transition: all 0.25s; border: none; cursor: pointer; display: inline-block; }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(61,220,132,0.2); }
+  .btn-secondary { background: transparent; color: var(--muted2); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; padding: 0.85rem 2rem; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; transition: all 0.25s; display: inline-block; }
+  .btn-secondary:hover { border-color: var(--muted); color: var(--text); }
+
+  .hero-contacts { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); opacity: 0; animation: fadeUp 0.8s 0.65s forwards; }
+  .hc-item { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted2); display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+  .hc-item:hover { color: var(--green); }
+  .hc-dot { color: var(--green); font-size: 0.5rem; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Sections */
+  .section { padding: 5.5rem 2.5rem; max-width: 1000px; margin: 0 auto; }
+  .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--green); letter-spacing: 0.1em; }
+  .section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: -0.02em; }
+  .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+  /* About */
+  #about { border-top: 1px solid var(--border); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
+  @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .about-text p { color: var(--muted2); line-height: 1.85; margin-bottom: 1.1rem; font-size: 0.95rem; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .about-text .green { color: var(--green); }
+  .skill-group { margin-bottom: 1.8rem; }
+  .skill-group-title { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.7rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .skill-tag { font-family: 'DM Mono', monospace; font-size: 0.68rem; padding: 0.28rem 0.7rem; border-radius: 4px; border: 1px solid var(--border); color: var(--muted2); background: var(--surface); transition: all 0.2s; }
+  .skill-tag:hover { border-color: var(--green); color: var(--green); background: var(--green-bg); }
+  .skill-tag.green { border-color: rgba(61,220,132,0.25); color: var(--green); background: var(--green-bg); }
+
+  /* Experience */
+  #experience { border-top: 1px solid var(--border); }
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-item { display: grid; grid-template-columns: 165px 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .timeline-item:last-child { border-bottom: none; }
+  @media (max-width: 640px) { .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; } }
+  .tl-date { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--muted); letter-spacing: 0.04em; line-height: 1.7; padding-top: 0.15rem; }
+  .tl-period { color: var(--green); display: block; margin-bottom: 0.2rem; }
+  .tl-company { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.05rem; margin-bottom: 0.2rem; }
+  .tl-role { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--green); letter-spacing: 0.06em; margin-bottom: 0.8rem; text-transform: uppercase; }
+  .tl-desc { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .tl-desc li { font-size: 0.85rem; color: var(--muted2); line-height: 1.6; padding-left: 1.1rem; position: relative; }
+  .tl-desc li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
+
+  /* Education */
+  #education { border-top: 1px solid var(--border); }
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .edu-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; transition: border-color 0.3s; }
+  .edu-card:hover { border-color: var(--green2); }
+  .edu-type { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.6rem; }
+  .edu-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.93rem; margin-bottom: 0.35rem; }
+  .edu-place { font-size: 0.78rem; color: var(--muted2); margin-bottom: 0.5rem; line-height: 1.5; }
+  .edu-year { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 0.6rem; margin-top: 0.6rem; }
+
+  /* Projects */
+  #projects { border-top: 1px solid var(--border); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .project-card { background: var(--card); padding: 2rem; position: relative; overflow: hidden; transition: background 0.3s; }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--green), transparent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+  .project-card:hover { background: #161e17; }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-type { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.8rem; }
+  .project-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.05rem; margin-bottom: 0.6rem; }
+  .project-desc { font-size: 0.83rem; color: var(--muted2); line-height: 1.7; margin-bottom: 1.2rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+  .project-tag { font-family: 'DM Mono', monospace; font-size: 0.62rem; padding: 0.2rem 0.6rem; border-radius: 3px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+  .project-meta { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; }
+  .project-meta .dot { color: var(--green); }
+
+  /* Contact */
+  #contact { border-top: 1px solid var(--border); }
+  .contact-inner { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 3.5rem; text-align: center; position: relative; overflow: hidden; }
+  .contact-inner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(61,220,132,0.06), transparent 65%); pointer-events: none; }
+  .contact-inner h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(1.6rem, 3.5vw, 2.4rem); letter-spacing: -0.03em; margin-bottom: 1rem; }
+  .contact-inner p { color: var(--muted2); font-size: 0.9rem; max-width: 440px; margin: 0 auto 2.5rem; line-height: 1.75; }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .contact-link { display: flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.05em; padding: 0.7rem 1.4rem; border: 1px solid var(--border); border-radius: 6px; color: var(--muted2); background: var(--surface); transition: all 0.25s; }
+  .contact-link:hover { border-color: var(--green); color: var(--green); background: var(--green-bg); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); max-width: 1000px; margin: 0 auto; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .stagger { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .stagger.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Пронькина<span>.</span></div>
+  <div class="nav-links">
+    <a href="#about">О себе</a>
+    <a href="#experience">Опыт</a>
+    <a href="#education">Обучение</a>
+    <a href="#projects">Проекты</a>
+    <a href="#contact">Контакт</a>
+  </div>
+  <a href="mailto:lemnisckata@gmail.com" class="nav-cta">Написать</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Открыта к предложениям · Пенза / Удалённо</div>
+    <h1 class="hero-name">
+      <span class="green">Junior</span><br/>
+      QA <span class="outline">Engineer</span>
+    </h1>
+    <p class="hero-desc">
+      <strong>Кристина Пронькина</strong> — тестировщик с 9-летним опытом контроля качества процессов. Перехожу в IT, принося с собой умение работать с чек-листами, анализировать дефекты и мыслить системно. Дополнительно осваиваю <strong>вайб кодинг</strong> — создание продуктов с помощью AI.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">Смотреть проекты</a>
+      <a href="#contact" class="btn-secondary">Связаться</a>
+    </div>
+    <div class="hero-contacts">
+      <a href="tel:+79677064114" class="hc-item"><span class="hc-dot">●</span>+7 (967) 706-41-14</a>
+      <a href="mailto:lemnisckata@gmail.com" class="hc-item"><span class="hc-dot">●</span>lemnisckata@gmail.com</a>
+      <a href="https://t.me/togda_kogda" target="_blank" class="hc-item"><span class="hc-dot">●</span>@togda_kogda</a>
+      <span class="hc-item"><span class="hc-dot">●</span>Пенза · готова к переезду</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">О себе</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Junior QA Engineer с практикой <strong>ручного тестирования</strong> веб-приложений в рамках обучения в Яндекс.Практикуме.</p>
+        <p>9 лет опыта в управлении процессами дали то, чего многим джунам не хватает: умение работать с <strong>чек-листами качества</strong>, анализировать метрики, находить root cause проблем и доводить дефекты до исправления через ретест.</p>
+        <p>Параллельно осваиваю <span class="green">вайб кодинг</span> — создание веб-интерфейсов и прототипов с помощью AI. Это позволяет быстро реализовывать идеи без написания кода вручную.</p>
+        <p>Усидчива, внимательна к деталям, быстро обучаюсь. Планирую развиваться в сторону <strong>автоматизации тестирования</strong>.</p>
+      </div>
+      <div class="about-skills">
+        <div class="skill-group">
+          <div class="skill-group-title">QA / Тестирование</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Ручное тестирование</span>
+            <span class="skill-tag">Тест-кейсы</span>
+            <span class="skill-tag">Чек-листы</span>
+            <span class="skill-tag">Баг-репорты</span>
+            <span class="skill-tag">Тест-дизайн</span>
+            <span class="skill-tag">Регрессионное тестирование</span>
+            <span class="skill-tag">Анализ требований</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Инструменты</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Postman</span>
+            <span class="skill-tag">Jira</span>
+            <span class="skill-tag">DevTools</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Scrum</span>
+            <span class="skill-tag">Google Docs</span>
+            <span class="skill-tag">MS Excel</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">AI / Вайб кодинг</div>
+          <div class="skill-tags">
+            <span class="skill-tag green">Claude AI</span>
+            <span class="skill-tag green">Prompt engineering</span>
+            <span class="skill-tag green">Прототипирование</span>
+            <span class="skill-tag green">Netlify</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Дополнительно</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Python (базовый)</span>
+            <span class="skill-tag">Английский B1</span>
+            <span class="skill-tag">Деловая переписка</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Опыт работы</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item stagger">
+        <div class="tl-date"><span class="tl-period">Окт 2023 — Янв 2026</span>2 года 4 месяца</div>
+        <div>
+          <div class="tl-company">ООО Любимая сова</div>
+          <div class="tl-role">Управляющая кофейней</div>
+          <ul class="tl-desc">
+            <li>Внедрение и контроль выполнения процессов — аналог тестирования бизнес-процессов</li>
+            <li>Работа с чек-листами качества</li>
+            <li>Анализ метрик и отчётность</li>
+            <li>Контроль дефектов и отклонений в процессах</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item stagger">
+        <div class="tl-date"><span class="tl-period">Май 2021 — Сент 2023</span>2 года 5 месяцев · Саранск</div>
+        <div>
+          <div class="tl-company">Big Pig</div>
+          <div class="tl-role">Администратор ресторана</div>
+          <ul class="tl-desc">
+            <li>Контроль соблюдения стандартов и выявление ошибок</li>
+            <li>Работа с системой R-Keeper (взаимодействие с ПО)</li>
+            <li>Проверка данных инвентаризации и отчётности</li>
+            <li>Root cause analysis — анализ причин проблем и их устранение</li>
+            <li>Ведение документации</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item stagger">
+        <div class="tl-date"><span class="tl-period">Июн 2019 — Май 2021</span>2 года</div>
+        <div>
+          <div class="tl-company">Craft Grill Bar</div>
+          <div class="tl-role">Администратор ресторана</div>
+          <ul class="tl-desc">
+            <li>Контроль соблюдения стандартов и выявление ошибок</li>
+            <li>Работа с системой R-Keeper</li>
+            <li>Проверка данных инвентаризации и отчётности</li>
+            <li>Root cause analysis и ведение документации</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item stagger">
+        <div class="tl-date"><span class="tl-period">Июн 2018 — Июн 2019</span>1 год 1 месяц · Пенза</div>
+        <div>
+          <div class="tl-company">"Чо? Капчо!" — Azimut Hotel Penza</div>
+          <div class="tl-role">Администратор ресторана</div>
+          <ul class="tl-desc">
+            <li>Подготовка заведения по чек-листам</li>
+            <li>Контроль банкетов — тестирование сценариев мероприятий</li>
+            <li>Отчётность и ведение соцсетей</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item stagger">
+        <div class="tl-date"><span class="tl-period">Дек 2016 — Июн 2018</span>1 год 7 месяцев · Пенза</div>
+        <div>
+          <div class="tl-company">Ресторан Shafran</div>
+          <div class="tl-role">Администратор ресторана</div>
+          <ul class="tl-desc">
+            <li>Управление персоналом: графики работы как тест-кейсы</li>
+            <li>Инвентаризация и ведение документации</li>
+            <li>Разрешение нестандартных ситуаций</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Образование и курсы</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card stagger">
+        <div class="edu-type">Курс · 2026</div>
+        <div class="edu-name">Инженер по тестированию — расширенный</div>
+        <div class="edu-place">Яндекс.Практикум</div>
+        <div class="edu-year">В процессе обучения</div>
+      </div>
+      <div class="edu-card stagger">
+        <div class="edu-type">Сертификат · 2026</div>
+        <div class="edu-name">"Поколение Python": курс для начинающих</div>
+        <div class="edu-place">Stepik</div>
+        <div class="edu-year">Электронный сертификат получен</div>
+      </div>
+      <div class="edu-card stagger">
+        <div class="edu-type">Высшее (неоконченное) · 2023</div>
+        <div class="edu-name">Журналистика</div>
+        <div class="edu-place">Пензенский государственный университет · Историко-филологический факультет</div>
+        <div class="edu-year">Пенза</div>
+      </div>
+      <div class="edu-card stagger">
+        <div class="edu-type">Практика · 2026</div>
+        <div class="edu-name">AI-assisted разработка (вайб кодинг)</div>
+        <div class="edu-place">Создание веб-интерфейсов и дашбордов с помощью Claude AI</div>
+        <div class="edu-year">Портфолио проектов ниже ↓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Проекты</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card stagger">
+        <div class="project-type">Вайб кодинг · Лэндинг</div>
+        <div class="project-name">💍 Свадебный сайт</div>
+        <p class="project-desc">Одностраничный лэндинг с живым обратным отсчётом, RSVP-формой, плавающими анимациями и элегантным тёмным дизайном.</p>
+        <div class="project-tags">
+          <span class="project-tag">HTML</span><span class="project-tag">CSS</span>
+          <span class="project-tag">JavaScript</span><span class="project-tag">Claude AI</span>
+        </div>
+        <div class="project-meta"><span class="dot">●</span>Время разработки: ~1 час</div>
+      </div>
+      <div class="project-card stagger">
+        <div class="project-type">Вайб кодинг · Дашборд</div>
+        <div class="project-name">✅ Трекер привычек</div>
+        <p class="project-desc">Интерактивный дашборд с тепловой картой активности, прогресс-барами по каждой привычке, счётчиком серий и живой статистикой.</p>
+        <div class="project-tags">
+          <span class="project-tag">HTML</span><span class="project-tag">CSS</span>
+          <span class="project-tag">JavaScript</span><span class="project-tag">Claude AI</span>
+        </div>
+        <div class="project-meta"><span class="dot">●</span>Время разработки: ~40 минут</div>
+      </div>
+      <div class="project-card stagger">
+        <div class="project-type">QA · В процессе</div>
+        <div class="project-name">🧪 Учебные QA-артефакты</div>
+        <p class="project-desc">Тест-кейсы, баг-репорты и тест-планы из курса Яндекс.Практикум. Реальные задания по тестированию веб-приложений. Скоро здесь.</p>
+        <div class="project-tags">
+          <span class="project-tag">Тест-кейсы</span><span class="project-tag">Баг-репорты</span>
+          <span class="project-tag">Postman</span><span class="project-tag">Jira</span>
+        </div>
+        <div class="project-meta"><span class="dot" style="color:var(--muted)">●</span>Скоро</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Контакт</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-inner">
+      <h2>Открыта к предложениям 👋</h2>
+      <p>Ищу стажировку или junior-позицию QA-инженера. Готова к полной, частичной занятости и проектной работе. Удалённо или Пенза.</p>
+      <div class="contact-links">
+        <a href="mailto:lemnisckata@gmail.com" class="contact-link">✉️ &nbsp;lemnisckata@gmail.com</a>
+        <a href="tel:+79677064114" class="contact-link">📞 &nbsp;+7 (967) 706-41-14</a>
+        <a href="https://t.me/togda_kogda" target="_blank" class="contact-link">✈️ &nbsp;@togda_kogda</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Кристина Пронькина · Junior QA Engineer</span>
+  <span>Сделано с помощью вайб кодинга ⚡</span>
+  <span id="yr"></span>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), e.target.classList.contains('stagger') ? i * 60 : 0);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal, .stagger').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
